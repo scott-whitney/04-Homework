@@ -1,6 +1,6 @@
 const quizButton = document.getElementById('quizBtn')
 quizButton.addEventListener('click', startQuiz)
-
+var playerInitails = ("PFW");
 var HighScores = [];
 var timeCounter = 45;
 var counter = 0;
@@ -59,7 +59,8 @@ function startQuiz() {
 
     if (counter === 6)  {
         whipeQBoard()
-        highScore();
+        createInitialsInput()
+        // highScore();
 
     } else {
         setupQuiz();
@@ -163,15 +164,12 @@ function answerCheck() {
 }
 
 function highScore() {
+    var initialsPW = document.getElementById("inputInitials").value;
+    console.log(initialsPW);
     var userTime = 0;
     var userScore = score
-    var userName = 0
-    var $stopQuizText = document.getElementById("quizHere");
-    $stopQuizText.textContent = "Please give us your initials"
-
-    createInitialsInput();
-
-
+    var userName = initialsPW
+    
    HighScores.push({userScore, userName, userTime})
    console.log(HighScores);
 }
@@ -191,8 +189,10 @@ function whipeQBoard() {
 
 }
 function createInitialsInput() {
+    var $stopQuizText = document.getElementById("quizHere");
+    $stopQuizText.textContent = "Please give us your initials"
     // Creating the necissary tags to make an input bar
-    var $inputMainDiv = document.createElement("div");
+    var $inputMainDiv = document.createElement("form");
     var $inputChildDiv = document.createElement("div");
     var $inputMainSpan = document.createElement("span");
     var $inputMainInput = document.createElement("input");
@@ -203,8 +203,28 @@ function createInitialsInput() {
     $inputMainDiv.appendChild($inputChildDiv);
     $inputMainDiv.appendChild($inputMainInput);
     $inputChildDiv.appendChild($inputMainSpan);
-    // Can add bootstrap classes later to make it prettier
-
-
+    // setting the form ID so I can hopfully grab its value
+    $inputMainDiv.setAttribute("id", "form1");
+    $inputMainInput.setAttribute("id", "inputInitials")
+    // Adding the button
+    var $inputInitialsBtn = document.createElement('input');
+    // class card body
+    var $cardElement =  document.querySelector(".card-body")
+    // adding the button to be the last child of Card Body
+    $cardElement.appendChild($inputInitialsBtn);
+    $inputInitialsBtn.setAttribute("form", "form1")
+    $inputInitialsBtn.setAttribute("class", "btn btn-primary")
+    $inputInitialsBtn.setAttribute("value", "submit")
+    $inputInitialsBtn.textContent = "Submit" 
+    console.log($inputInitialsBtn);
+    $inputInitialsBtn.addEventListener('click', highScore);
+    console.log($inputMainInput); 
+}
+function foo() {
+    var initialsPW = document.getElementById("inputInitials").value;
+    playerInitails = initialsPW;
+    console.log(playerInitials);
+    highScore();
+    
 
 }

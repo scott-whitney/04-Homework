@@ -113,20 +113,23 @@ function setupQuiz() {
 }
 
 function userInput() {
-    possibleAOne = document.getElementById('answer1');
-    possibleATwo = document.getElementById('answer2');
-    possibleAThree = document.getElementById('answer3');
-    possibleAFour = document.getElementById('answer4');
+    possibleA0 = document.getElementById('answer1');
+    possibleA1 = document.getElementById('answer2');
+    possibleA2 = document.getElementById('answer3');
+    possibleA3 = document.getElementById('answer4');
 
-    possibleAOne.addEventListener('click', startQuiz)
-    possibleATwo.addEventListener('click', startQuiz)
-    possibleAThree.addEventListener('click', startQuiz)
-    possibleAFour.addEventListener('click', startQuiz)
+    possibleA0.addEventListener('click', startQuiz)
+    possibleA1.addEventListener('click', startQuiz)
+    possibleA2.addEventListener('click', startQuiz)
+    possibleA3.addEventListener('click', startQuiz)
 
 }
 
 function answerCheck() {
+
     
+
+
 
 }
 

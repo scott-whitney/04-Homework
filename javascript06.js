@@ -2,9 +2,12 @@ const quizButton = document.getElementById('quizBtn')
 quizButton.addEventListener('click', startQuiz)
 var playerInitails = ("PFW");
 var HighScores = [];
-var timeCounter = 45;
+var timeCounter = 0;
+var timeSubtractor = 0;
 var counter = 0;
 var score = 0;
+var remainingTime = 0;
+
 var $currentQuestion = document.createElement("h1");
 // ol
 var $questionAL = document.createElement('div');   
@@ -53,6 +56,7 @@ var questions = [
 
 function startQuiz() {
     if (counter === 0) {
+        timer(45, callback);
         var startQuizBtn = document.getElementById("quizBtn");
         startQuizBtn.remove();
     }
@@ -115,7 +119,7 @@ function setupQuiz() {
     $answerBtnFour.setAttribute("id", "answer3")
 
 }
-
+// This is where the ability to recognize wrong answers will go
 function userInput() {
     
 
@@ -131,11 +135,19 @@ function userInput() {
         possibleA3
 
     ]
+    possibleA0.addEventListener('click', answerWrong)
+    possibleA1.addEventListener('click', answerWrong)
+    possibleA2.addEventListener('click', answerWrong)
+    possibleA3.addEventListener('click', answerWrong)
+
     var i = questions[counter].correct;
+    answerList[i].removeEventListener('click', answerWrong)
     answerList[i].addEventListener('click', answerCheck)
+
+
     
 }
-
+// Correct Answers
 function answerCheck() {
     possibleA0 = document.getElementById('answer0');
     possibleA1 = document.getElementById('answer1');
@@ -162,16 +174,46 @@ function answerCheck() {
 
 
 }
+function answerWrong(){
+    possibleA0 = document.getElementById('answer0');
+    possibleA1 = document.getElementById('answer1');
+    possibleA2 = document.getElementById('answer2');
+    possibleA3 = document.getElementById('answer3');
+
+    answerList = [
+        possibleA0,
+        possibleA1,
+        possibleA2,
+        possibleA3
+
+    ]
+    possibleA0.removeEventListener('click', answerWrong)
+    possibleA1.removeEventListener('click', answerWrong)
+    possibleA2.removeEventListener('click', answerWrong)
+    possibleA3.removeEventListener('click', answerWrong)
+
+    var i = questions[counter].correct;
+    answerList[i].removeEventListener('click', answerCheck)
+    // timeSubtractor = timeSubtractor + 10;
+    counter++
+    startQuiz();
+}
+
+
+
+
 
 function highScore() {
     var initialsPW = document.getElementById("inputInitials").value;
     console.log(initialsPW);
-    var userTime = 0;
+    var userTime = timeCounter;
     var userScore = score
     var userName = initialsPW
 
    HighScores.push({userScore, userName, userTime})
    console.log(HighScores);
+   whipeSBoard()
+
 }
 
 function whipeQBoard() {
@@ -189,6 +231,10 @@ function whipeQBoard() {
 
 }
 function createInitialsInput() {
+
+    timeSubtractor = timeSubtractor + 100;
+
+
     var $stopQuizText = document.getElementById("quizHere");
     $stopQuizText.textContent = "Please give us your initials"
     // Creating the necissary tags to make an input bar
@@ -215,8 +261,51 @@ function createInitialsInput() {
     $inputInitialsBtn.setAttribute("form", "form1")
     $inputInitialsBtn.setAttribute("class", "btn btn-primary")
     $inputInitialsBtn.setAttribute("value", "submit")
+    $inputInitialsBtn.setAttribute("id", "noDupes")
     $inputInitialsBtn.textContent = "Submit" 
     console.log($inputInitialsBtn);
     $inputInitialsBtn.addEventListener('click', highScore);
     console.log($inputMainInput); 
 }
+function whipeSBoard() {
+    // remove input form bar
+//     $inputMainDiv.remove();
+//     $inputChildDiv.remove();
+//     $inputMainInput.remove();
+//     $inputMainSpan.remove();
+// // remove submit button
+//     $inputInitialsBtn.remove();
+    var $stopInputForm = document.getElementById("form1");
+    $stopInputForm.remove();
+    var $stopInputBtn = document.getElementById("noDupes");
+    $stopInputBtn.remove();
+    var $stopQuizText = document.getElementById("quizHere");
+    $stopQuizText.remove();
+
+    // LoadScoreTrigger
+
+}
+
+function timer(seconds, cb) {
+    var remainingTime = seconds;
+    window.setTimeout(function() {
+      cb();
+      timeCounter = remainingTime
+      var $userVisibleTime = document.getElementById("timer");
+        // $userVisibleTime = timeCounter;
+        $userVisibleTime.textContent = timeCounter;
+    //   console.log(remainingTime);
+        console.log(timeCounter);
+      if (remainingTime > timeSubtractor) {
+        timer(remainingTime - 1, cb); 
+      }
+    }, 1000);
+  }
+  
+  var callback = function() {
+    //   timeCounter = ('callback');
+    console.log('callback');
+    // console.log(timeCounter);
+  };
+  
+//   timer(90, callback);

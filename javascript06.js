@@ -4,6 +4,7 @@ quizButton.addEventListener('click', startQuiz)
 var HighScores = [];
 var timeCounter = 45;
 var counter = 0;
+var score = 0;
 var $currentQuestion = document.createElement("h1");
 // ol
 var $questionAL = document.createElement('div');   
@@ -12,7 +13,7 @@ var $answerOne = document.createElement("div");
 var $answerTwo = document.createElement("div");
 var $answerThree = document.createElement("div");
 var $answerFour = document.createElement("div");
-// button a tags
+// button <a> tags
 var $answerBtnOne = document.createElement('a');
 var $answerBtnTwo = document.createElement('a');
 var $answerBtnThree = document.createElement('a');
@@ -78,7 +79,7 @@ function thisQuiz() {
         $answerBtnThree.textContent = questions[counter].a[2];
         $answerBtnFour.textContent = questions[counter].a[3];
         quizButton.textContent = "Next Question"
-        counter++
+
 }
 
 
@@ -105,29 +106,65 @@ function setupQuiz() {
     $answerBtnThree.setAttribute("class", "btn btn-primary")
     $answerBtnFour.setAttribute("class", "btn btn-primary")
 // Giving them Ids so userInput can use them as buttons with eventlistener
-    $answerBtnOne.setAttribute("id", "answer1")
-    $answerBtnTwo.setAttribute("id", "answer2")
-    $answerBtnThree.setAttribute("id", "answer3")
-    $answerBtnFour.setAttribute("id", "answer4")
+    $answerBtnOne.setAttribute("id", "answer0")
+    $answerBtnTwo.setAttribute("id", "answer1")
+    $answerBtnThree.setAttribute("id", "answer2")
+    $answerBtnFour.setAttribute("id", "answer3")
 
 }
 
 function userInput() {
-    possibleA0 = document.getElementById('answer1');
-    possibleA1 = document.getElementById('answer2');
-    possibleA2 = document.getElementById('answer3');
-    possibleA3 = document.getElementById('answer4');
+    
 
-    possibleA0.addEventListener('click', startQuiz)
-    possibleA1.addEventListener('click', startQuiz)
-    possibleA2.addEventListener('click', startQuiz)
-    possibleA3.addEventListener('click', startQuiz)
+    possibleA0 = document.getElementById('answer0');
+    possibleA1 = document.getElementById('answer1');
+    possibleA2 = document.getElementById('answer2');
+    possibleA3 = document.getElementById('answer3');
+    // possibleA0.addEventListener('click', startQuiz)
+    // possibleA1.addEventListener('click', startQuiz)
+    // possibleA2.addEventListener('click', startQuiz)
+    // possibleA3.addEventListener('click', startQuiz)
 
+    answerList = [
+        possibleA0,
+        possibleA1,
+        possibleA2,
+        possibleA3
+
+    ]
+    var i = questions[counter].correct;
+    console.log(counter);
+    console.log(questions[counter].correct);
+    console.log(answerList[i]);
+    answerList[i].addEventListener('click', answerCheck)
+    // possibleA[.addEventListener('click', startQuiz)
+    // 
+    
 }
 
 function answerCheck() {
+    possibleA0 = document.getElementById('answer0');
+    possibleA1 = document.getElementById('answer1');
+    possibleA2 = document.getElementById('answer2');
+    possibleA3 = document.getElementById('answer3');
+
+    answerList = [
+        possibleA0,
+        possibleA1,
+        possibleA2,
+        possibleA3
+
+    ]
+    var i = questions[counter].correct;
+    console.log(counter);
+    console.log(questions[counter].correct);
+    console.log(answerList[i]);
+    answerList[i].removeEventListener('click', answerCheck)
 
     
+    counter++
+    score++
+    startQuiz();
 
 
 

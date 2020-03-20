@@ -52,18 +52,20 @@ var questions = [
     }]
 
 function startQuiz() {
+    if (counter === 0) {
+        var startQuizBtn = document.getElementById("quizBtn");
+        startQuizBtn.remove();
+    }
 
-                    setupQuiz();
-                    thisQuiz();
-    //  var userScore = thisQuiz();
-                    userInput();
-    //  var userName = prompt("what are your initials?")
-     var userTime = 0;
-     var userScore = 0
-     var userName = 0
-    // var serializedScores = JSON.stringify(highscores);
-    HighScores.push({userScore, userName, userTime})
-    console.log(HighScores);
+    if (counter === 6)  {
+        whipeQBoard()
+        highScore();
+
+    } else {
+        setupQuiz();
+        thisQuiz();
+        userInput();
+    }
 }
 
 
@@ -120,10 +122,6 @@ function userInput() {
     possibleA1 = document.getElementById('answer1');
     possibleA2 = document.getElementById('answer2');
     possibleA3 = document.getElementById('answer3');
-    // possibleA0.addEventListener('click', startQuiz)
-    // possibleA1.addEventListener('click', startQuiz)
-    // possibleA2.addEventListener('click', startQuiz)
-    // possibleA3.addEventListener('click', startQuiz)
 
     answerList = [
         possibleA0,
@@ -133,12 +131,7 @@ function userInput() {
 
     ]
     var i = questions[counter].correct;
-    console.log(counter);
-    console.log(questions[counter].correct);
-    console.log(answerList[i]);
     answerList[i].addEventListener('click', answerCheck)
-    // possibleA[.addEventListener('click', startQuiz)
-    // 
     
 }
 
@@ -156,12 +149,11 @@ function answerCheck() {
 
     ]
     var i = questions[counter].correct;
-    console.log(counter);
-    console.log(questions[counter].correct);
-    console.log(answerList[i]);
     answerList[i].removeEventListener('click', answerCheck)
 
     
+
+    console.log(counter);
     counter++
     score++
     startQuiz();
@@ -170,3 +162,49 @@ function answerCheck() {
 
 }
 
+function highScore() {
+    var userTime = 0;
+    var userScore = score
+    var userName = 0
+    var $stopQuizText = document.getElementById("quizHere");
+    $stopQuizText.textContent = "Please give us your initials"
+
+    createInitialsInput();
+
+
+   HighScores.push({userScore, userName, userTime})
+   console.log(HighScores);
+}
+
+function whipeQBoard() {
+        var stopQuizBtn0 = document.getElementById("answer0");
+        stopQuizBtn0.remove();
+        var stopQuizBtn1 = document.getElementById("answer1");
+        stopQuizBtn1.remove();
+        var stopQuizBtn2 = document.getElementById("answer2");
+        stopQuizBtn2.remove();
+        var stopQuizBtn3 = document.getElementById("answer3");
+        stopQuizBtn3.remove();
+    
+        $currentQuestion.remove();
+
+
+}
+function createInitialsInput() {
+    // Creating the necissary tags to make an input bar
+    var $inputMainDiv = document.createElement("div");
+    var $inputChildDiv = document.createElement("div");
+    var $inputMainSpan = document.createElement("span");
+    var $inputMainInput = document.createElement("input");
+    // get element ID of parent div tag
+    var $stopQuizText = document.getElementById("quizHere");
+    // begin assembly
+    $stopQuizText.appendChild($inputMainDiv);
+    $inputMainDiv.appendChild($inputChildDiv);
+    $inputMainDiv.appendChild($inputMainInput);
+    $inputChildDiv.appendChild($inputMainSpan);
+    // Can add bootstrap classes later to make it prettier
+
+
+
+}

@@ -14,23 +14,35 @@ var HighScores = [];
 function startQuiz() {
 
 
-    countDownTimer();
     
-    userScore = thisQuiz();
-    userName = prompt("what are your initials?")
+     var userScore = thisQuiz();
+     var userName = prompt("what are your initials?")
+     var userTime = 0;
     // var serializedScores = JSON.stringify(highscores);
-    HighScores.push({userScore, userName})
+    HighScores.push({userScore, userName, userTime})
     console.log(HighScores);
 }
 
 function thisQuiz() {
-    var score = 0
     // count down progress b
+    // countDownTimer();
+    var count = 45;
+    var interval = setInterval(function(){
+        document.getElementById('count').innerHTML=count;
+        count--;
+        if (count === 0){
+            clearInterval(interval);
+            document.getElementById('count').innerHTML='Done';
+            // or...
+            alert("You're out of time!");
+          }
+        }, 1000);
 
 
 
 
 
+    var score = 0
 
     var questions = [ {q: "Are Crosley's the first SUV?", a:true}, 
     {q: "Did Crosley make the first American Sports Car?", a:true}, 
@@ -57,6 +69,10 @@ function thisQuiz() {
         }
     }
 
+   
+ 
+
+
     // alert(score + " " + "out of 10");
     // alert(`you got the score of ${score} out of ${questions.length}`)
 
@@ -65,21 +81,21 @@ function thisQuiz() {
 }
 
 
-function countDownTimer() {
+// function countDownTimer() {
 
-    var count = 45;
-    var interval = setInterval(function(){
-        document.getElementById('count').innerHTML=count;
-        count--;
-        if (count === 0){
-          clearInterval(interval);
-          document.getElementById('count').innerHTML='Done';
-          // or...
-          alert("You're out of time!");
-        }
-      }, 1000);
+//     var count = 45;
+//     var interval = setInterval(function(){
+//         document.getElementById('count').innerHTML=count;
+//         count--;
+//         if (count === 0){
+//           clearInterval(interval);
+//           document.getElementById('count').innerHTML='Done';
+//           // or...
+//           alert("You're out of time!");
+//         }
+//       }, 1000);
 
-}
+// }
 
 
 

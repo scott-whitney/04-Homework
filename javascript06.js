@@ -169,7 +169,7 @@ function highScore() {
     var userTime = 0;
     var userScore = score
     var userName = initialsPW
-    
+
    HighScores.push({userScore, userName, userTime})
    console.log(HighScores);
 }
@@ -219,12 +219,4 @@ function createInitialsInput() {
     console.log($inputInitialsBtn);
     $inputInitialsBtn.addEventListener('click', highScore);
     console.log($inputMainInput); 
-}
-function foo() {
-    var initialsPW = document.getElementById("inputInitials").value;
-    playerInitails = initialsPW;
-    console.log(playerInitials);
-    highScore();
-    
-
 }

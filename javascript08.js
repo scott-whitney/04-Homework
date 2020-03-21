@@ -243,10 +243,9 @@ function highScore() {
     var userScore = score
     var userName = initialsPW
 
-    var scoreList = localStorage.getItem('highScores');
-    var highScoreList = JSON.parse(scoreList);
+   
     
-    
+    Array.prototype.push.apply(HighScores, highScoreList);
     
     
     HighScores.push({userScore, userName, userTime})
@@ -255,7 +254,7 @@ function highScore() {
     console.log(stringHighScores);
 
 
-    
+
     localStorage.setItem('highScores', stringHighScores);
 
 

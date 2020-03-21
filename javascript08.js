@@ -66,13 +66,7 @@ var questions = [
     a:["Channeling spiritual energy into the hot rod", "cleaning the channels in the carb", "cutting channels in the body so the car can be lowered", "This is not a hot rod term"],
     correct:2
     }]
-// function restartQuiz() {
-//     realRemainingTime = 45
-//     counter = 0
-//     score = 0
-//     startQuiz()
 
-// }
 function startQuiz() {
     if (counter === 0) {
         // timer(45, callback);
@@ -80,19 +74,29 @@ function startQuiz() {
         timerSet();
         var startQuizBtn = document.getElementById("quizBtn");
         startQuizBtn.remove();
-    }
-
-    if (counter === questions.length)  {
-        // whipeQBoard()
-        createInitialsInput()
-        
-        // highScore();
-
-    } else {
+    }  
+    
+    
+    
         setupQuiz();
         thisQuiz();
         userInput();
-    }
+    
+
+    // if (counter > questions.length)  {
+    //     counter = questions.length
+    // }
+    //     // whipeQBoard()
+    //     console.log("nah you didn't find it")
+    //     createInitialsInput()
+        
+        
+
+    // } else {
+    //     setupQuiz();
+    //     thisQuiz();
+    //     userInput();
+    // }
 }
 
 
@@ -100,6 +104,8 @@ function startQuiz() {
 
 
 function thisQuiz() {
+
+   
 
 
         $currentQuestion.textContent = questions[counter].q;
@@ -192,6 +198,9 @@ function answerCheck() {
 
     console.log(counter);
     counter++
+    if (counter > questions.length)  {
+        counter = questions.length
+    }
     score++
     startQuiz();
 
@@ -224,9 +233,11 @@ function answerWrong(){
     if (realRemainingTime > 10){
         realRemainingTime = realRemainingTime - 10;
         startQuiz();
-    } else {
-        realRemainingTime = 0
-        createInitialsInput()
+    // } else {
+    //     realRemainingTime = 0
+    //     console.log("did you find it?")
+    //     createInitialsInput()
+
     }
     
     
@@ -250,8 +261,10 @@ function highScore() {
     
     HighScores.push({userScore, userName, userTime})
     console.log(HighScores);
+    HighScores.sort();
+    console.log(HighScores);
     var stringHighScores = JSON.stringify(HighScores)
-    console.log(stringHighScores);
+
 
 
 
@@ -267,23 +280,31 @@ function highScore() {
 }
 
 function whipeQBoard() {
-        var stopQuizBtn0 = document.getElementById("answer0");
-        stopQuizBtn0.remove();
-        var stopQuizBtn1 = document.getElementById("answer1");
-        stopQuizBtn1.remove();
-        var stopQuizBtn2 = document.getElementById("answer2");
-        stopQuizBtn2.remove();
-        var stopQuizBtn3 = document.getElementById("answer3");
-        stopQuizBtn3.remove();
+        // $stopQuizBtn0 = document.getElementById("answer0");
+        // $stopQuizBtn0.remove();
+        $answerBtnOne.remove();
+        $answerBtnTwo.remove();
+        $answerBtnThree.remove();
+        $answerBtnFour.remove();
+        // var stopQuizBtn1 = document.getElementById("answer1");
+        // stopQuizBtn1.remove();
+        // var stopQuizBtn2 = document.getElementById("answer2");
+        // stopQuizBtn2.remove();
+        // var stopQuizBtn3 = document.getElementById("answer3");
+        // stopQuizBtn3.remove();
     
         $currentQuestion.remove();
+        console.log("whipeQboard")
+        if (counter > questions.length)  {
+            counter = questions.length
+        }
 
 
 }
 function createInitialsInput() {
 
     
-
+    console.log("createInitialsInput")
 
     var $stopQuizText = document.getElementById("quizHere");
     $stopQuizText.textContent = "Please give us your initials"
@@ -337,11 +358,14 @@ function timerSet(){
         realRemainingTime--;
         $userVisibleTime.textContent = realRemainingTime;
         if (counter === questions.length){
+            
+            console.log("counter welp")
             clearInterval(timerInterval);
             whipeQBoard()
             createInitialsInput()
         }
         else if(realRemainingTime <= 0){
+            console.log("counter yo");
             clearInterval(timerInterval);
             whipeQBoard()
             createInitialsInput()
@@ -403,18 +427,7 @@ function createScorePattern() {
         $listItem7.setAttribute("id", "listItem7");
         $listItem8.setAttribute("id", "listItem8");
         $listItem9.setAttribute("id", "listItem9");
-   
 
-    // var $listItem0 = document.createElement('li');
-    // var $listItem1 = document.createElement('li');
-    // var $listItem2 = document.createElement('li');
-    // var $listItem3 = document.createElement('li');
-    // var $listItem4 = document.createElement('li');
-    // var $listItem5 = document.createElement('li');
-    // var $listItem6 = document.createElement('li');
-    // var $listItem7 = document.createElement('li');
-    // var $listItem8 = document.createElement('li');
-    // var $listItem9 = document.createElement('li');
 
     
 
@@ -461,7 +474,7 @@ function createScorePattern() {
 
         // listItemCaller[0].textContent = highScoreList[0].userName;
 
-  for (i = 0; i < highScoreList.length; i++) {
+  for (i = 0; i < listItemCaller.length; i++) {
         listItemCaller[i].textContent = "Name:" + " " + highScoreList[i].userName + " " + "Score:" + " " + highScoreList[i].userScore + " " + "Timer:" + " " + highScoreList[i].userTime;
 
 

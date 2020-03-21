@@ -1,5 +1,8 @@
 const quizButton = document.getElementById('quizBtn')
 quizButton.addEventListener('click', startQuiz)
+// const quizButtonTwo = document.getElementById('quizBtn2')
+// quizButtonTwo.addEventListener('click', restartQuiz);
+
 var playerInitails = ("PFW");
 var HighScores = [];
 var timeCounter = 0;
@@ -7,6 +10,7 @@ var timeSubtractor = 0;
 var counter = 0;
 var score = 0;
 var remainingTime = 0;
+var realRemainingTime = 45;
 
 var $currentQuestion = document.createElement("h1");
 // ol
@@ -21,9 +25,16 @@ var $answerBtnOne = document.createElement('a');
 var $answerBtnTwo = document.createElement('a');
 var $answerBtnThree = document.createElement('a');
 var $answerBtnFour = document.createElement('a');
-// If you add more questions you need to add to the maximum for counter variable or
-// or you can make the counter variable equal to the length of the questions array
-// big thoughts
+
+// HighScore Elements
+var $highScoreCard = document.createElement('div')
+var $highScoreHeader = document.createElement('div')
+var $highScoreList = document.createElement('ul')
+
+var scoreList = localStorage.getItem('highScores');
+var highScoreList = JSON.parse(scoreList);
+
+
 var questions = [
     {
     q: "What was the first company in the US to call a vehicle a SUV?", 
@@ -55,17 +66,26 @@ var questions = [
     a:["Channeling spiritual energy into the hot rod", "cleaning the channels in the carb", "cutting channels in the body so the car can be lowered", "This is not a hot rod term"],
     correct:2
     }]
+// function restartQuiz() {
+//     realRemainingTime = 45
+//     counter = 0
+//     score = 0
+//     startQuiz()
 
+// }
 function startQuiz() {
     if (counter === 0) {
-        timer(45, callback);
+        // timer(45, callback);
+
+        timerSet();
         var startQuizBtn = document.getElementById("quizBtn");
         startQuizBtn.remove();
     }
 
-    if (counter === 6)  {
-        whipeQBoard()
+    if (counter === questions.length)  {
+        // whipeQBoard()
         createInitialsInput()
+        
         // highScore();
 
     } else {
@@ -119,6 +139,8 @@ function setupQuiz() {
     $answerBtnTwo.setAttribute("id", "answer1")
     $answerBtnThree.setAttribute("id", "answer2")
     $answerBtnFour.setAttribute("id", "answer3")
+
+
 
 }
 // This is where the ability to recognize wrong answers will go
@@ -198,7 +220,16 @@ function answerWrong(){
     answerList[i].removeEventListener('click', answerCheck)
     // timeSubtractor = timeSubtractor + 10;
     counter++
-    startQuiz();
+
+    if (realRemainingTime > 10){
+        realRemainingTime = realRemainingTime - 10;
+        startQuiz();
+    } else {
+        realRemainingTime = 0
+        createInitialsInput()
+    }
+    
+    
 }
 
 
@@ -208,13 +239,31 @@ function answerWrong(){
 function highScore() {
     var initialsPW = document.getElementById("inputInitials").value;
     console.log(initialsPW);
-    var userTime = timeCounter;
+    var userTime = realRemainingTime;
     var userScore = score
     var userName = initialsPW
 
-   HighScores.push({userScore, userName, userTime})
-   console.log(HighScores);
-   whipeSBoard()
+    var scoreList = localStorage.getItem('highScores');
+    var highScoreList = JSON.parse(scoreList);
+    
+    
+    
+    
+    HighScores.push({userScore, userName, userTime})
+    console.log(HighScores);
+    var stringHighScores = JSON.stringify(HighScores)
+    console.log(stringHighScores);
+
+
+    
+    localStorage.setItem('highScores', stringHighScores);
+
+
+
+
+
+    whipeSBoard()
+    createScorePattern();
 
 }
 
@@ -234,7 +283,7 @@ function whipeQBoard() {
 }
 function createInitialsInput() {
 
-    timeSubtractor = timeSubtractor + 100;
+    
 
 
     var $stopQuizText = document.getElementById("quizHere");
@@ -282,20 +331,141 @@ function whipeSBoard() {
 
 }
 
-function timer(seconds, cb) {
-    var remainingTime = seconds;
-    window.setTimeout(function() {
-      cb();
-      timeCounter = remainingTime
-      var $userVisibleTime = document.getElementById("timer");
-        $userVisibleTime.textContent = timeCounter;
-        console.log(timeCounter);
-      if (remainingTime > timeSubtractor) {
-        timer(remainingTime - 1, cb); 
-      }
+
+function timerSet(){
+    var $userVisibleTime = document.getElementById("timer");
+    var timerInterval = setInterval(function() {
+        realRemainingTime--;
+        $userVisibleTime.textContent = realRemainingTime;
+        if (counter === questions.length){
+            clearInterval(timerInterval);
+            whipeQBoard()
+            createInitialsInput()
+        }
+        else if(realRemainingTime <= 0){
+            clearInterval(timerInterval);
+            whipeQBoard()
+            createInitialsInput()
+            // different one
+        }
+        
     }, 1000);
+
+}
+
+// function showScores(){
+
+
+//     createScorePattern();
+
+// }
+
+function createScorePattern() {
+    // newBtn
+    // <a id="quizBtn" class="btn btn-primary">Take Quiz</a>
+
+
+
+
+
+
+
+
+    var scoreList = localStorage.getItem('highScores');
+    var highScoreList = JSON.parse(scoreList);
+    console.log(highScoreList);
+    // var $highScoreCard = document.createElement('div')
+    // var $highScoreHeader = document.createElement('div')
+    // var $highScoreList = document.createElement('ol')
+    var $highScoreCard = document.createElement('div')
+    var $highScoreHeader = document.createElement('div')
+    var $highScoreList = document.createElement('ol')
+    
+    var $listItem0 = document.createElement('li');
+    var $listItem1 = document.createElement('li');
+    var $listItem2 = document.createElement('li');
+    var $listItem3 = document.createElement('li');
+    var $listItem4 = document.createElement('li');
+    var $listItem5 = document.createElement('li');
+    var $listItem6 = document.createElement('li');
+    var $listItem7 = document.createElement('li');
+    var $listItem8 = document.createElement('li');
+    var $listItem9 = document.createElement('li');
+
+        $highScoreList.setAttribute("style", "text-align-center")
+    
+        $listItem0.setAttribute("id", "listItem0");
+        $listItem1.setAttribute("id", "listItem1");
+        $listItem2.setAttribute("id", "listItem2");
+        $listItem3.setAttribute("id", "listItem3");
+        $listItem4.setAttribute("id", "listItem4");
+        $listItem5.setAttribute("id", "listItem5");
+        $listItem6.setAttribute("id", "listItem6");
+        $listItem7.setAttribute("id", "listItem7");
+        $listItem8.setAttribute("id", "listItem8");
+        $listItem9.setAttribute("id", "listItem9");
+   
+
+    // var $listItem0 = document.createElement('li');
+    // var $listItem1 = document.createElement('li');
+    // var $listItem2 = document.createElement('li');
+    // var $listItem3 = document.createElement('li');
+    // var $listItem4 = document.createElement('li');
+    // var $listItem5 = document.createElement('li');
+    // var $listItem6 = document.createElement('li');
+    // var $listItem7 = document.createElement('li');
+    // var $listItem8 = document.createElement('li');
+    // var $listItem9 = document.createElement('li');
+
+    
+
+    document.body.appendChild($highScoreCard);
+    $highScoreCard.appendChild($highScoreHeader);
+    $highScoreCard.appendChild($highScoreList);
+
+    $highScoreList.appendChild($listItem0);
+    $highScoreList.appendChild($listItem1);
+    $highScoreList.appendChild($listItem2);
+    $highScoreList.appendChild($listItem3);
+    $highScoreList.appendChild($listItem4);
+    $highScoreList.appendChild($listItem5);
+    $highScoreList.appendChild($listItem6);
+    $highScoreList.appendChild($listItem7);
+    $highScoreList.appendChild($listItem8);
+    $highScoreList.appendChild($listItem9);
+
+    $lI0 = document.getElementById("listItem0");
+    $lI1 = document.getElementById("listItem1");
+    $lI2 = document.getElementById("listItem2");
+    $lI3 = document.getElementById("listItem3");
+    $lI4 = document.getElementById("listItem4");
+    $lI5 = document.getElementById("listItem5");
+    $lI6 = document.getElementById("listItem6");
+    $lI7 = document.getElementById("listItem7");
+    $lI8 = document.getElementById("listItem8");
+    $lI9 = document.getElementById("listItem9");
+
+    
+
+    listItemCaller = [
+            $lI0,
+            $lI1,
+            $lI2,
+            $lI3,
+            $lI4,
+            $lI5,
+            $lI6,
+            $lI7,
+            $lI8,
+            $lI9,
+        ]
+
+        // listItemCaller[0].textContent = highScoreList[0].userName;
+
+  for (i = 0; i < highScoreList.length; i++) {
+        listItemCaller[i].textContent = "Name:" + " " + highScoreList[i].userName + " " + "Score:" + " " + highScoreList[i].userScore + " " + "Timer:" + " " + highScoreList[i].userTime;
+
+
   }
-  
-  var callback = function() {
-    console.log('callback');
-  };
+}
+

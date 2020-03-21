@@ -7,6 +7,7 @@ var timeSubtractor = 0;
 var counter = 0;
 var score = 0;
 var remainingTime = 0;
+var realRemainingTime = 45;
 
 var $currentQuestion = document.createElement("h1");
 // ol
@@ -58,14 +59,16 @@ var questions = [
 
 function startQuiz() {
     if (counter === 0) {
-        timer(45, callback);
+        // timer(45, callback);
+        timerSet();
         var startQuizBtn = document.getElementById("quizBtn");
         startQuizBtn.remove();
     }
 
-    if (counter === 6)  {
-        whipeQBoard()
+    if (counter === questions.length)  {
+        // whipeQBoard()
         createInitialsInput()
+        
         // highScore();
 
     } else {
@@ -197,6 +200,7 @@ function answerWrong(){
     var i = questions[counter].correct;
     answerList[i].removeEventListener('click', answerCheck)
     // timeSubtractor = timeSubtractor + 10;
+    realRemainingTime = realRemainingTime - 10;
     counter++
     startQuiz();
 }
@@ -208,7 +212,7 @@ function answerWrong(){
 function highScore() {
     var initialsPW = document.getElementById("inputInitials").value;
     console.log(initialsPW);
-    var userTime = timeCounter;
+    var userTime = realRemainingTime;
     var userScore = score
     var userName = initialsPW
 
@@ -234,7 +238,7 @@ function whipeQBoard() {
 }
 function createInitialsInput() {
 
-    timeSubtractor = timeSubtractor + 100;
+    
 
 
     var $stopQuizText = document.getElementById("quizHere");
@@ -282,20 +286,27 @@ function whipeSBoard() {
 
 }
 
-function timer(seconds, cb) {
-    var remainingTime = seconds;
-    window.setTimeout(function() {
-      cb();
-      timeCounter = remainingTime
-      var $userVisibleTime = document.getElementById("timer");
-        $userVisibleTime.textContent = timeCounter;
-        console.log(timeCounter);
-      if (remainingTime > timeSubtractor) {
-        timer(remainingTime - 1, cb); 
-      }
+
+function timerSet(){
+    var $userVisibleTime = document.getElementById("timer");
+    var timerInterval = setInterval(function() {
+        realRemainingTime--;
+        $userVisibleTime.textContent = realRemainingTime;
+        if (counter === questions.length){
+            clearInterval(timerInterval);
+            whipeQBoard()
+            createInitialsInput()
+        }
+        else if(realRemainingTime < 0){
+            clearInterval(timerInterval);
+            whipeQBoard()
+            createInitialsInput()
+            // different one
+        }
+        
     }, 1000);
-  }
-  
-  var callback = function() {
-    console.log('callback');
-  };
+
+}
+
+
+
